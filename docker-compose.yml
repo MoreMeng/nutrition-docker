@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  web:
+    # image: php:7.2-apache
+    build: .
+    volumes:
+      - ./code/:/var/www/html/
+    ports:
+      - "8009:80"
+    environment:
+      PHP_DISPLAY_ERRORS: 1
+      PHP_POST_MAX_SIZE: 100M
+      PHP_UPLOAD_MAX_FILESIZE: 100M
+      WEB_DOCUMENT_INDEX: index.php
