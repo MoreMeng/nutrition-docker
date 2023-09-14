@@ -1,9 +1,22 @@
-## Deployment
+## Docker PHP 7.3 Apache MySQL with PDO
 
-1. clone `<git>` `<name>`
-2. cd `<name>`
-3. change docker-compose.yml specific port `<newport>:80`
-4. docker-compose up -d
-5. `chown -R 33:33 code`
-   1. * 33 = www-data
-ถ้าไม่ chown จะติด permission
+- libpng-dev
+- libjpeg-dev
+- libfreetype6-dev
+- libzip-dev
+- zlib1g-dev
+- libpq-dev
+
+### docker-php-ext-install
+- gd
+- pdo
+- pdo_mysql
+- pdo_pgsql
+
+# .env file
+`
+MYSQL_ROOT_PASSWORD=password
+MYSQL_USER=root
+MYSQL_PASSWORD=password
+MYSQL_DATABASE=database_name
+`

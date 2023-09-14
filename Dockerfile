@@ -1,18 +1,36 @@
+# Use the official PHP 7.3 Apache image as the base image
 FROM php:7.3-apache
 
-RUN apt-get update && \
-    apt-get install -y \
-    libfreetype6-dev \
-    libgd-dev \
-    libjpeg62-turbo-dev \
+# Install system dependencies and PHP extensions
+RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
-    libpq-dev
+    libfreetype6-dev \
+    libzip-dev \
+    zlib1g-dev \
+    libpq-dev \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql pdo_pgsql
 
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
+# Enable Apache modules and restart Apache
+RUN a2enmod rewrite && service apache2 restart
 
-RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo pdo_pgsql
+# Set the working directory to /var/www/html
+WORKDIR /var/www/html
 
-RUN chown -R www-data:www-data /var/www/html/
+# Copy your application files into the container
+COPY . /var/www/html
+
+# Expose port 80 for Apache
+EXPOSE 80
+
+# Define environment variables for MySQL
+# ENV MYSQL_HOST=mysql \
+#     MYSQL_PORT=3306 \
+#     MYSQL_USER=root \
+#     MYSQL_PASSWORD=password
+
+# Optionally, you can set other environment variables here if needed
+
+# Start Apache in the foreground
+CMD ["apache2-foreground"]
