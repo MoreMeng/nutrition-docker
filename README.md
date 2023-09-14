@@ -14,9 +14,7 @@
 - pdo_pgsql
 
 # .env file
-`
-MYSQL_ROOT_PASSWORD=password
-MYSQL_USER=root
-MYSQL_PASSWORD=password
-MYSQL_DATABASE=database_name
-`
+    MYSQL_ROOT_PASSWORD=password
+    MYSQL_USER=root
+    MYSQL_PASSWORD=password
+    MYSQL_DATABASE=database_name
