@@ -2,6 +2,7 @@
 FROM php:7.3-apache
 
 # Install system dependencies and PHP extensions
+# + mysqli pgsql for codeigniter
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -10,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libpq-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql pdo_pgsql
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql pdo_pgsql mysqli pgsql
 
 # Enable Apache modules and restart Apache
 RUN a2enmod rewrite && service apache2 restart
@@ -20,6 +21,9 @@ WORKDIR /var/www/html
 
 # Copy your application files into the container
 COPY . /var/www/html
+
+# Change permission of directory /var/www/html to www-data
+RUN chown -R www-data:www-data /var/www/html
 
 # Expose port 80 for Apache
 EXPOSE 80

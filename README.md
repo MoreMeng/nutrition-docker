@@ -12,6 +12,13 @@
 - pdo
 - pdo_mysql
 - pdo_pgsql
+- mysqli
+- pgsql
+
+### Disabling ONLY_FULL_GROUP_BY on MySQL
+
+    command:
+        --sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
 
 # .env file
     MYSQL_ROOT_PASSWORD=password
